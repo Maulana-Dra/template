@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Role</title>
+    <title>Update Barang</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 font-sans leading-normal tracking-normal">
@@ -19,30 +18,28 @@
 
         <!-- Main Content -->
         <div class="flex-1 p-8">
-            <!-- Formulir Input Role -->
+            <!-- Formulir Update Barang -->
             <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg">
-                <h2 class="text-2xl font-bold mb-6 text-gray-800">Update Role</h2>
-                <form action="index.php?modul=role&fitur=update" method="POST">
-                    <input type="hidden" name="role_id" value="<?= $role->role_id; ?>">
-                    <!-- Nama Role -->
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">Update Barang</h2>
+                <form action="index.php?modul=barang&fitur=update" method="POST">
+                    <input type="hidden" name="id" value="<?= $barang->id; ?>">
+                    
+                    <!-- Nama Barang -->
                     <div class="mb-4">
-                        <label for="role_name" class="block text-gray-700 text-sm font-bold mb-2">Nama Role:</label>
-                        <input type="text" id="role_name" name="role_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Masukkan Nama Role" required value="<?= $role->role_name ?>">
+                        <label for="nama" class="block text-gray-700 text-sm font-bold mb-2">Nama Barang:</label>
+                        <input type="text" id="nama" name="nama" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Masukkan Nama Barang" required value="<?= $barang->nama ?>">
                     </div>
 
-                    <!-- Role Deskripsi -->
+                    <!-- Harga Barang -->
                     <div class="mb-4">
-                        <label for="role_description" class="block text-gray-700 text-sm font-bold mb-2">Role Deskripsi:</label>
-                        <textarea id="role_description" name="role_description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Masukkan Deskripsi Role" rows="3" required ><?= $role->role_description ?></textarea>
+                        <label for="harga" class="block text-gray-700 text-sm font-bold mb-2">Harga Barang:</label>
+                        <input type="number" id="harga" name="harga" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Masukkan Harga Barang" required value="<?= $barang->harga ?>">
                     </div>
 
-                    <!-- Role Status -->
+                    <!-- Stok Barang -->
                     <div class="mb-4">
-                        <label for="role_status" class="block text-gray-700 text-sm font-bold mb-2">Role Status:</label>
-                        <select id="role_status" name="role_status" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
-                        <option value="Active" <?= $role->role_status == 1 ? 'selected' : '' ?>>Active</option>
-                        <option value="Inactive" <?= $role->role_status == 0 ? 'selected' : '' ?>>Inactive</option>
-                        </select>
+                        <label for="stok" class="block text-gray-700 text-sm font-bold mb-2">Stok Barang:</label>
+                        <input type="number" id="stok" name="stok" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Masukkan Stok Barang" required value="<?= $barang->stok ?>" readonly>
                     </div>
 
                     <!-- Submit Button -->

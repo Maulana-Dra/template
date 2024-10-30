@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Input Barang</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- <Link href="./Views/output.css" rel="stylesheet"> -->
 </head>
 <body class="bg-gray-100 font-sans leading-normal tracking-normal">
 
@@ -25,24 +24,20 @@
                 <form action="../index.php?modul=barang&fitur=add" method="POST">
                     <!-- Nama Barang -->
                     <div class="mb-4">
-                        <label for="barang_name" class="block text-gray-700 text-sm font-bold mb-2">Nama Barang:</label>
-                        <input type="text" id="barang_name" name="barang_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Masukkan Nama Barang" required>
+                        <label for="nama" class="block text-gray-700 text-sm font-bold mb-2">Nama Barang:</label>
+                        <input type="text" id="nama" name="nama" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Masukkan Nama Barang" required>
                     </div>
 
-                    <!-- Barang Deskripsi -->
+                    <!-- Harga Barang -->
                     <div class="mb-4">
-                        <label for="barang_harga" class="block text-gray-700 text-sm font-bold mb-2">Barang Deskripsi:</label>
-                        <textarea id="barang_harga" name="barang_harga" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Masukkan Deskripsi Barang" rows="3" required></textarea>
+                        <label for="harga" class="block text-gray-700 text-sm font-bold mb-2">Harga Barang:</label>
+                        <input type="number" id="harga" name="harga" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Masukkan Harga Barang" required>
                     </div>
 
-                    <!-- Barang Status -->
+                    <!-- Stok Barang -->
                     <div class="mb-4">
-                        <label for="barang_status" class="block text-gray-700 text-sm font-bold mb-2">Barang Status:</label>
-                        <select id="barang_status" name="barang_status" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
-                            <option value="">Pilih Status</option>
-                            <option value=Active>Active</option>
-                            <option value=Inactive>Inactive</option>
-                        </select>
+                        <label for="stok" class="block text-gray-700 text-sm font-bold mb-2">Stok Barang:</label>
+                        <input type="number" id="stok" name="stok" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Masukkan Stok Barang" required>
                     </div>
 
                     <!-- Submit Button -->

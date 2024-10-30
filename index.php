@@ -56,11 +56,59 @@ switch ($modul) {
                         header("Location: index.php?modul=role");
                     }
                     break;
-            default;
-                $roles = $obj_roleModel->getAllRoles(); //get roles []
-                include 'views/role_list.php';
+                default;
+                    $roles = $obj_roleModel->getAllRoles(); //get roles []
+                    include 'views/role_list.php';
+            }
+            break;
+            
+            // Modul Barang
+    case 'barang':
+        $fitur = isset($_GET['fitur']) ? $_GET['fitur'] : null;
+        $obj_barang = new modelBarang();
+
+        switch ($fitur) {
+            case 'add':
+                $nama = $_POST['nama'];
+                $harga = $_POST['harga'];
+                $stok = $_POST['stok'];
+                $obj_barang->addBarang($nama, $harga, $stok);
+
+                header("Location: index.php?modul=barang");
+                break;
+
+            case 'edit':
+                $id = $_GET['id'];
+                $barang = $obj_barang->getBarangById($id);
+                include 'views/update_barang.php';
+                break;
+
+            case 'update':
+                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                    $id = $_POST['id'];
+                    $nama = $_POST['nama'];
+                    $harga = $_POST['harga'];
+                    $stok = $_POST['stok'];
+
+                    $obj_barang->updateBarang($id, $nama, $harga, $stok);
+                    header("Location: index.php?modul=barang");
+                }
+                break;
+
+            case 'delete':
+                $id = $_GET['id'];
+                $obj_barang->deleteBarang($id);
+                header("Location: index.php?modul=barang");
+                break;
+
+            default:
+                $barangs = $obj_barang->getAllBarangs();
+                include "views/barang_list.php";
+                break;
         }
         break;
+
+
 }
 
 ?>

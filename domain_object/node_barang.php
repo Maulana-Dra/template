@@ -1,15 +1,15 @@
 <?php 
 class Barang{
-    public $barang_id;
-    public $barang_name;
-    public $barang_harga;
-    public $barang_stock;
+    public $id;
+    public $nama;
+    public $harga;
+    public $stok;
 
-    function __construct($barang_id,$barang_name, $barang_harga, $barang_stock){
-        $this->barang_id = $barang_id;
-        $this->barang_name = $barang_name;
-        $this->barang_harga = $barang_harga;
-        $this->barang_stock = $barang_stock;
+    public function __construct($id, $nama, $harga, $stok){
+        $this->id = $id;
+        $this->nama = $nama;
+        $this->harga = $harga;
+        $this->stok = $stok;
     }
 }
 ?>

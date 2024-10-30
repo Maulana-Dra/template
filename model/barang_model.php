@@ -1,72 +1,80 @@
 <?php
-    require_once 'domain_object/node_barang.php';
+require_once 'domain_object/node_barang.php';
 
-class Barang_model{
+class modelBarang {
     private $barangs = [];
     private $nextId = 1;
-    public function __construct(){
-        if(isset($_SESSION['barangs'])){
+
+    public function __construct() {
+        if (isset($_SESSION['barangs'])) {
             $this->barangs = unserialize($_SESSION['barangs']);
-            $this->nextId = count($this->barangs);
-        }else{
-            $this->initiliazeDefaultBarang();
+            $this->nextId = count($this->barangs) + 1;
+        } else {
+            $this->initializeDefaultBarang();
         }
     }
-    public function initiliazeDefaultBarang(){
-        
-        $this->addBarang("Laptop","1000",10);
-        $this->addBarang("Handphone","500",30);
-        $this->addBarang("Buku","50",500);
+
+    public function initializeDefaultBarang() {
+        $this->addBarang("Pensil", 2000, 100);
+        $this->addBarang("Buku", 5000, 50);
+        $this->addBarang("Penggaris", 1500, 30);
     }
-    public function addBarang($barang_name,$barang_description,$barang_status){
-        $id = count($this->barangs)+1;
-        $item = new Barang ($id, $barang_name, $barang_description, $barang_status);
-        $this->barangs[] = $item;
+
+    public function addBarang($nama, $harga, $stok) {
+        $barang = new Barang($this->nextId++, $nama, $harga, $stok);
+        $this->barangs[] = $barang;
         $this->saveToSession();
     }
-    public function saveToSession(){
+
+    private function saveToSession() {
         $_SESSION['barangs'] = serialize($this->barangs);
     }
-    public function getAllBarangs(){
-        return $this->barangs;    
+
+    public function getAllBarangs() {
+        return $this->barangs;
     }
-    public function getBarangById($barang_id){
-        foreach($this->barangs as $barang){
-            if($barang->barang_id == $barang_id){
+
+    public function getBarangById($id) {
+        foreach ($this->barangs as $barang) {
+            if ($barang->id == $id) {
                 return $barang;
             }
         }
         return null;
     }
-    public function getBarangByName($barang_name){
-        foreach ($this->barangs as $barang){
-            if($barang->barang_name == $barang_name){
+
+    public function updateBarang($id, $nama, $harga, $stok) {
+        foreach ($this->barangs as $barang) {
+            if ($barang->id == $id) {
+                $barang->nama = $nama;
+                $barang->harga = $harga;
+                $barang->stok = $stok;
+                $this->saveToSession();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function deleteBarang($id) {
+        foreach ($this->barangs as $key => $barang) {
+            if ($barang->id == $id) {
+                unset($this->barangs[$key]);
+                $this->barangs = array_values($this->barangs);
+                $this->saveToSession();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function getBarangByName($nama) {
+        foreach ($this->barangs as $barang) {
+            if ($barang->nama == $nama) {
                 return $barang;
             }
         }
+        return null;
     }
-    public function updateBarang($barang_id,$barang_name,$barang_description,$barang_status){
-        foreach ($this->barangs as $barang){
-            if($barang->barang_id == $barang_id){
-                $barang->barang_name = $barang_name;
-                $barang->barang_description = $barang_description;
-                $barang->barang_status = $barang_status;
-                $this->saveToSession();
-                return true;
-            }
-        }
-        return false;
-    }
-    public function deleteBarang($barang_id){
-        foreach ($this->barangs as $key => $barang){
-            if ($barang->barang_id == $barang_id){
-                unset($this->barangs[$key]);
-                $this->barangs= array_values($this->barangs);
-                $this->saveToSession();
-                return true;
-            }
-        }
-        return false;
-    } 
 }
 ?>
