@@ -81,7 +81,7 @@ switch ($modul) {
             case 'edit':
                 $id = $_GET['id'];
                 $barang = $obj_barang->getBarangById($id);
-                include 'views/update_barang.php';
+                include 'views/barang_update.php';
                 break;
 
             case 'update':
