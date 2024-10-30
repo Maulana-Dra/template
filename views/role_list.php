@@ -23,7 +23,7 @@
             <!-- Button to Insert New Role -->
             <div class="mb-4">
                 <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    <a href="views/role_input.php">Insert New Role</a>
+                    <a href="views/role_input.php">Insert New</a>
                 </button>
             </div>
 
@@ -56,7 +56,8 @@
                             </button>
                             <!-- Tombol Delete -->
                             <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mr-2">
-                                <a href="index.php?modul=role&fitur=delete&id=<?php echo $role->role_id ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus role ini?')">Delete</a>                            </button>
+                                <a href="index.php?modul=role&fitur=delete&id=<?php echo $role->role_id ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus role ini?')">Delete</a>                            
+                            </button>
                      </td>
                      <?php } ?>
                     </tr>

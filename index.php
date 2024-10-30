@@ -20,6 +20,7 @@ switch ($modul) {
         switch ($fitur) {
             case 'add';
                 //get variabel form form
+                $id = $_POST['role_id'];
                 $role_name = $_POST['role_name'];
                 $role_description = $_POST['role_description'];
                 $role_status = $_POST['role_status'];

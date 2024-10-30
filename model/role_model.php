@@ -19,7 +19,8 @@ class Role_model{
         $this->addRole("Kasir","Pembayaran",0);
     }
     public function addRole($role_name,$role_description,$role_status){
-        $peran = new \Role ($this->nextId++, $role_name, $role_description, $role_status);
+        $id = count($this->roles)+1;
+        $peran = new Role ($id, $role_name, $role_description, $role_status);
         $this->roles[] = $peran;
         $this->saveToSession();
     }

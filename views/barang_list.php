@@ -23,7 +23,7 @@
             <!-- Button to Insert New Role -->
             <div class="mb-4">
                 <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    <!-- <a href="MainEntryPoint.php?modul=role&fitur=add">Insert New Role</a> -->
+                    <a href="views/barang_input.php">Insert New</a>
                 </button>
             </div>
 
@@ -44,68 +44,23 @@
                     </thead>
                     <tbody class="text-gray-700">
                     <!-- Dynamic Data Rows -->
-                     <?php foreach ($obj_barang as $barang) { ?>
+                     <?php foreach ($barangs as $barang) { ?>
                      <tr class="text_center">
-                     <td class="py-3 px-4 text-blue-600"><?php echo htmlspecialchars($barang->barang_ids); ?></td>
+                     <td class="py-3 px-4 text-blue-600"><?php echo htmlspecialchars($barang->barang_id); ?></td>
                         <td class="w-1/4 py-3 px-4"><?php echo htmlspecialchars($barang->barang_nama); ?></td>
                         <td class="w-1/3 py-3 px-4"><?php echo htmlspecialchars($barang->barang_harga); ?></td>
                         <td class="w-1/6 py-3 px-4"><?php echo htmlspecialchars($barang->barang_jumlah); ?></td>
                         <td class="w-1/6 py-3 px-4">
                             <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded mr-2">
-                                <a href="#">Update</a>
+                                <a href="index.php?modul=role&fitur=edit&id=<?php echo $barang->barang_id; ?>"class="block">Update</a>
                             </button>
                             <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mr-2">
-                                <a href="#">Delete</a>
+                                <a href="index.php?modul=role&fitur=delete&id=<?php echo $barang->barang_id ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus barang ini?')">Delete</a>                            
                             </button>
-                     </td>
+                            </td>
                      <?php } ?>
                     </tr>
                     </tbody>
-                    <!-- Static Data Rows -->
-                    <!-- <tr class="text-center">
-                        <td class="py-3 px-4 text-blue-600">1</td>
-                        <td class="w-1/4 py-3 px-4">Administrator</td>
-                        <td class="w-1/3 py-3 px-4">Full access to system features</td>
-                        <td class="w-1/6 py-3 px-4">Active</td>
-                        <td class="w-1/6 py-3 px-4">
-                            <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded mr-2">
-                                <a href="#">Update</a>
-                            </button>
-                            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mr-2">
-                                <a href="#">Delete</a>
-                            </button>
-                        </td>
-                    </tr> -->
-
-                    <!-- <tr class="text-center">
-                        <td class="py-3 px-4 text-blue-600">2</td>
-                        <td class="w-1/4 py-3 px-4">Editor</td>
-                        <td class="w-1/3 py-3 px-4">Can edit content but limited access to settings</td>
-                        <td class="w-1/6 py-3 px-4">Active</td>
-                        <td class="w-1/6 py-3 px-4">
-                            <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded mr-2">
-                                <a href="#">Update</a>
-                            </button>
-                            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mr-2">
-                                <a href="#">Delete</a>
-                            </button>
-                        </td>
-                    </tr>
-
-                    <tr class="text-center">
-                        <td class="py-3 px-4 text-blue-600">3</td>
-                        <td class="w-1/4 py-3 px-4">Viewer</td>
-                        <td class="w-1/3 py-3 px-4">Can only view content, no editing privileges</td>
-                        <td class="w-1/6 py-3 px-4">Inactive</td>
-                        <td class="w-1/6 py-3 px-4">
-                            <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded mr-2">
-                                <a href="#">Update</a>
-                            </button>
-                            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mr-2">
-                                <a href="#">Delete</a>
-                            </button>
-                        </td>
-                    </tr> -->
                     <!-- More rows can be added statically here -->
                     </tbody>
                 </table>
