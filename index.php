@@ -1,5 +1,6 @@
 <?php
 require_once 'model/role_model.php';
+require_once 'model/barang_model.php';
 session_start();
 //create object model
 
@@ -61,7 +62,7 @@ switch ($modul) {
                     include 'views/role_list.php';
             }
             break;
-            
+
             // Modul Barang
     case 'barang':
         $fitur = isset($_GET['fitur']) ? $_GET['fitur'] : null;

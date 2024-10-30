@@ -21,7 +21,8 @@ class modelBarang {
     }
 
     public function addBarang($nama, $harga, $stok) {
-        $barang = new Barang($this->nextId++, $nama, $harga, $stok);
+        $id = count($this->barangs)+1;
+        $barang = new Barang($id, $nama, $harga, $stok);
         $this->barangs[] = $barang;
         $this->saveToSession();
     }
