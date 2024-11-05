@@ -18,7 +18,7 @@
         </li>
         <li class="group">
             <div class="px-4 py-2 hover:bg-gray-700 cursor-pointer group-hover:bg-gray-700">
-                <a href="index.php?modul=role">Master Data User</a>
+                <a href="index.php?modul=user">Master Data User</a>
             </div>
 <!--            <ul class="ml-4 space-y-1 hidden group-hover:block">-->
 <!--                <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer">List</li>-->
@@ -42,10 +42,10 @@
             <div class="px-4 py-2 hover:bg-gray-700 cursor-pointer group-hover:bg-gray-700">Menu Transaksi</div>
             <ul class="ml-4 space-y-1 hidden group-hover:block">
                 <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-                    <a href="index.php?modul=role">Insert Transaksi</a>
+                    <a href=#>Insert Transaksi</a>
                 </li>
                 <li class="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-                    <a href="index.php?modul=role">List Transaksi</a>
+                    <a href=#>List Transaksi</a>
                 </li>
 
             </ul>
