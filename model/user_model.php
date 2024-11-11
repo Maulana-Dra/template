@@ -1,87 +1,63 @@
 <?php
-require_once './domain_object/node_user.php';
+
+require_once 'domain_object/node_user.php';
 require_once 'role_model.php';
-// require_once './user_model.php';
 
-class User_model{
-    // MENYIMPAN SEMUA DATA USER
+class modelUser{
     private $users = [];
-
-    // SEPERTI BIASA AUTO INCREMENT
-    private $nextID = 1;
-
-    // SEMUA METHOD MODEL BISA KITA MANFAATKAN
-    private $roleModel;
+    private $nextId = 1;
 
     public function __construct(){
-        $this->roleModel = new role_model();
-        // CEK APAKAH SESSION TERSEDIA
         if(isset($_SESSION['users'])){
             $this->users = unserialize($_SESSION['users']);
+            $this->nextId = count($this->users) + 1;
         }else{
-            $this->InitilizedefaultUser();
+            $this->initiliazeDefaultUser();
         }
     }
 
-    public function addUser($user, $nameRole){
-        $role = $this->roleModel->getRoleByName($nameRole);
-
-
-        if(!$role){
-            echo "<script>
-            alert('Role Tidak Ditemukan Kocak!');
-            </script>";
-            return false;
-        }
-
-        if($role->role_status == 0){
-            echo "<script>
-            alert('Role Tidak Aktif Kocak!');
-            </script>";
-            return false;
-        }
-
-        $ID = count($this->users) + 1;
-        $this->users[] = new User($ID,$user, $role);
+    public function addUser($role, $username, $password, $nama){
+        $id = count ($this->users)+1;
+        $user = new nodeUser($id, $role, $username, $password, $nama);
+        $this->users[] = $user;
         $this->saveToSession();
-        return true;
-        
     }
 
-
-    public function saveToSession(){
+    private function saveToSession(){
         $_SESSION['users'] = serialize($this->users);
-    }
-
-
-    public function InitilizedefaultUser(){
-        $this->addUser("Maulana", "Admin");
-        $this->addUser("Indah", "Kasir");
     }
 
     public function getAllUsers(){
         return $this->users;
     }
 
-    public function updateUser($userID,$username, $nameRole){
-        $role = $this->roleModel->getRoleByName($nameRole);
-        if(!$role){
-            echo "<script>
-            alert('Role Tidak Ditemukan Kocak!');
-            </script>";
-            return false;
-        }
-        if($role->role_status == 0){
-            echo "<script>
-            alert('Role Tidak Aktif Kocak!');
-            </script>";
-            return false;
-        }
-        foreach($this->users as $key => $user){
-            if($user->userId == $userID){
+    private function initiliazeDefaultUser(){
+        $roles = new Role_model();
+        $role3 = $roles->getRoleById(3);
+        $role1 = $roles->getRoleById(1);
+        $this->addUser($role3, "kasir1 ", "kasir1", "krisna");
+        $this->addUser($role1, "admin1", "admin1", "aan");
+    }
+
+    public function updateUser($id, $role, $username, $password, $nama){
+        foreach ($this->users as $user){
+            if ($user->userId == $id){
+                $user->role = $role;
                 $user->username = $username;
-                $user->allDataRole = $role;
-                // $this->users[$key] = new User($user->userId, $user->username, $role);
+                $user->password = $password;
+                $user->nama = $nama;
+                $this->saveToSession();
+                return true;
+            }
+        }
+        return null;
+    }
+
+    public function deleteUser($id){
+        foreach ($this->users as $key=>$user){
+            if ($user->userId){
+                unset($this->users[$key]);
+                $this->users = array_values($this->users);
                 $this->saveToSession();
                 return true;
             }
@@ -90,27 +66,22 @@ class User_model{
     }
 
     public function getUserById($id){
-        foreach($this->users as $user){
-            if($user->userId == $id){
+        foreach ($this->users as $user){
+            if ($user->userId == $id){
                 return $user;
             }
         }
-        return false;
+        return null;
     }
 
-
-    public function deleteUser($id){
-        foreach($this->users as $key => $user){
-            if($user->userId == $id){
-                unset($this->users[$key]);
-                $this->saveToSession();
-                return true;
+    public function getUserByName($name){
+        foreach ($this->users as $user){
+            if ($user->name == $name){
+                return $user;
             }
         }
-        return false;
+        return null;
     }
-
 }
-
 
 ?>

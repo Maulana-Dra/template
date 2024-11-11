@@ -1,9 +1,17 @@
 <?php
-require_once 'model/role_model.php';
-require_once 'model/barang_model.php';
-require_once 'model/user_model.php';
 session_start();
+
+require_once 'controller/controllerRole.php';
+require_once 'controller/controllerUser.php';
+require_once 'model/barang_model.php';
+require_once 'controller/controllerTransaksi.php';
+
 //create object model
+
+$objectRole = new controllerRole();
+$obj_barang = new modelBarang();
+$objectUser = new controllerUser();
+$objTransaksi = new controllerTransaksi();
 
 if (isset($_GET['modul'])){
     $modul = $_GET['modul'];
@@ -15,59 +23,48 @@ switch ($modul) {
     case 'dashboard';
         include 'views/kosong.php';
         break;
-    case 'role';
-        //menangkap value dari parameter fitur
+
+    //Transaksi
+    case 'transaksi':
         $fitur = isset($_GET['fitur']) ? $_GET['fitur'] : null;
-        $obj_roleModel = new Role_model();   //create objectss
-        switch ($fitur) {
-            case 'add';
-                //get variabel form form
-                $id = $_POST['role_id'];
-                $role_name = $_POST['role_name'];
-                $role_description = $_POST['role_description'];
-                $role_status = $_POST['role_status'];
-                //add to object role
-                $obj_roleModel->addRole($role_name,$role_description,$role_status);
-                //arahkan ke index.php
-                header('location: index.php?modul=role');
+        switch ($fitur){
+            case 'add':
+                if ($_SERVER['REQUEST_METHOD']=='POST'){
+                    print_r($_POST);
+                    $customer_name = $_POST['customer'];
+                    $Customer = $objectUser->getUserByName($customer_name);
+                    $Kasir = $objectUser->getUserById(1);
+                    echo $Customer->name."<br>";
+                    echo $Kasir->name."<br>";
+                    echo "<br>";
+                    // Asumsikan $_POST['barang'] dan $_POST['jumlah'] adalah array
+                    $barang = $_POST['barang'];
+                    $jumlah = $_POST['jumlah'];
+
+                    $obj_barangs = [];
+                    foreach ($barang as $key => $bar) {
+//                        echo "Barang: " . $bar . ", Jumlah: " . $jumlah[$key] . "<br>";
+                        $obj_barangs[] = $obj_barang->getBarangById($bar);
+                    }
+                    $objTransaksi->addTransaksi($obj_barangs,$jumlah,$Customer,$Kasir);
+                } else {
+//                    $listRoleName = $objectRole->getListRoleName();
+                    $barangs = $obj_barang->getAllBarangs();
+                    $customers = $objectUser->getUsers();
+//                    foreach ($customers as $customer){
+//                        echo $customer->name."<br>";
+//                    }
+                    include 'views/transaksi_input.php';
+                }
                 break;
-                
-                case 'edit':
-                    if (isset($_GET['id'])) {
-                        $id = $_GET['id'];
-                        $role = $obj_roleModel->getRoleById($id);
-                        include 'views/role_update.php';
-                    }
-                    break;
-    
-                case 'update':
-                    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                        $id = $_POST['role_id'];
-                        $role_name = $_POST['role_name'];
-                        $role_description = $_POST['role_description'];
-                        $role_status = $_POST['role_status'];
-    
-                        $obj_roleModel->updateRole($id, $role_name, $role_description, $role_status);
-                        header("Location: index.php?modul=role");
-                    }
-                    break;
-                case 'delete':
-                    if (isset($_GET['id'])) {
-                        $id = $_GET['id'];
-                        $obj_roleModel->deleteRole($id);
-                        header("Location: index.php?modul=role");
-                    }
-                    break;
-                default;
-                    $roles = $obj_roleModel->getAllRoles(); //get roles []
-                    include 'views/role_list.php';
-            }
-            break;
+            default:
+                $objTransaksi->listTransaksi();
+        }
+        break;
 
             // Modul Barang
     case 'barang':
         $fitur = isset($_GET['fitur']) ? $_GET['fitur'] : null;
-        $obj_barang = new modelBarang();
 
         switch ($fitur) {
             case 'add':
@@ -109,87 +106,70 @@ switch ($modul) {
                 break;
         }
         break;
+
         case 'user':
-        $fitur = isset($_GET['fitur']) ? $_GET['fitur'] : null;
-
-        $users = new User_model();
-        $roles = new Role_model();
-        switch($fitur){
-            case 'input':
-                $users = $users->getAllUsers();
-                $listRole = $roles->getAllRoles();
-                include './views/user_input.php';
-                break;
-
-            case 'add':
-                if($_SERVER['REQUEST_METHOD'] == 'POST'){
-                    $user = $_POST['name'];
-                    $nameRole = $_POST['role_status'];
-                    $result = $users->addUser($user, $nameRole);
-                    if($result){
-                        echo "<script>
-                            alert('Data berhasil ditambahkan!');
-                            window.location.href = 'index.php?modul=user';
-                        </script>";
-                    }else{
-                        echo "<script>
-                            alert('Data gagal ditambahkan!');
-                            window.location.href = 'index.php?modul=user';
-                        </script>";
+            $fitur = isset($_GET['fitur']) ? $_GET['fitur'] : null;
+            switch ($fitur){
+                case 'add':
+                    if ($_SERVER['REQUEST_METHOD']=='POST'){
+                        $name = $_POST['name'];
+                        $username = $_POST['username'];
+                        $passowrd = $_POST['password'];
+                        $role_Status = $_POST['role_status'];
+                        $users->addUser($role_status,$username,$passowrd,$name);
+                    } else {
+                        $listRoleName = $users->getListRoleName();
+                        include 'views/user_input.php';
                     }
-                }
-                include './views/user_input.php';
-                break;
-            case 'edit':
-                $userID = $_GET['id'];
-                $user = $users->getUserById($userID);
-                $listRole = $roles->getAllRoles();
-                include './views/user_update.php';
-                break;
-
-            case 'update':
-                if($_SERVER['REQUEST_METHOD'] == 'POST'){
-                    $userID = $_POST['id_user'];
-                    $user = $_POST['name'];
-                    $nameRole = $_POST['role_status'];
-                    $result = $users->updateUser($userID,$user, $nameRole);
-                    if($result){
-                        echo "<script>
-                            alert('Data berhasil diupdate!');
-                            window.location.href = 'index.php?modul=user';
-                        </script>";
-                    }else{
-                        echo "<script>
-                            alert('Data gagal diupdate!');
-                            window.location.href = 'index.php?modul=user';
-                        </script>";
-                    }
-                }
-
-            case 'delete':
-                $userID = $_GET['id']; // Ambil ID pengguna dari URL
-                if ($users->deleteUser ($userID)) { // Panggil method deleteUser 
-                    echo "<script>
-                        alert('Pengguna berhasil dihapus!');
-                        window.location.href = 'index.php?modul=user';
-                    </script>";
-                } else {
-                    echo "<script>
-                        alert('Pengguna tidak ditemukan atau gagal dihapus!');
-                        window.location.href = 'index.php?modul=user';
-                    </script>";
-                }
-                break;
-            default:
-
-                $users = $users->getAllUsers();
-                include './views/user_list.php';
-                break;
+                    break;
+                default:
+                    $users->listUser();
             }
             break;
 
-
-
+        case 'role':
+            $fitur = isset($_GET['fitur']) ? $_GET['fitur'] : null;
+            $id = isset($_GET['id']) ? $_GET['id'] : null;
+                switch ($fitur){
+                case 'add':
+                    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                        $role_name = $_POST['role_name'];
+                        $role_description = $_POST['role_description'];
+                        $role_status = $_POST['role_status'];
+                        if ($role_status == 1) {
+                            $role_status = 1;
+                        } else {
+                            $role_status = 0;
+                        }
+                        $objectRole->addRole($role_name,$role_description,$role_status);
+                    }else{
+                        include 'views/role_input.php';
+                    }
+                    break;
+                case 'edit':
+                    $objectRole->editById($id);
+                    break;
+                case 'update':
+                    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                        $role_name = $_POST['role_name'];
+                        $role_description = $_POST['role_description'];
+                        $role_status = $_POST['role_status'];
+                        if ($role_status == 1){
+                            $objectRole->updateRole($id, $role_name, $role_description, 1);
+                        }else{
+                            $objectRole->updateRole($id, $role_name, $role_description, 2);
+                        }
+                    }
+                    break;
+                case 'delete':
+                    $objectRole->deleteRole($id);
+                    break;
+                default:
+                $objectRole->listRoles();
+            }
+            break;
+        default:
+            include 'views/kosong.php';
 }
 
 ?>

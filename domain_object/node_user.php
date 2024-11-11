@@ -1,13 +1,20 @@
 <?php
-class User{
+
+class nodeUser
+{
+    public $role;
     public $userId;
     public $username;
-    public $allDataRole;
+    public $password;
+    public $name;
 
-    public function __construct($userId,$username,role $allDataRole){
+    public function __construct($role,$userId ,$username, $password, $nama)
+    {
+        $this->role = $role;
         $this->userId = $userId;
         $this->username = $username;
-        $this->allDataRole = $allDataRole;
+        $this->password = $password;
+        $this->name = $nama;
     }
 }
 
