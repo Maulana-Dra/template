@@ -77,5 +77,32 @@ class modelBarang {
         }
         return null;
     }
+    public function updateStok($id_barang, $jumlah) {
+        foreach ($this->barangs as $barang) {
+            if ($barang->id == $id_barang) {
+                // Pastikan stok tidak kurang dari 0
+                if ($barang->stok >= $jumlah) {
+                    $barang->stok -= $jumlah; // Kurangi stok dengan jumlah yang terjual
+                    $this->saveToSession(); // Simpan perubahan ke session
+                    return true; // Berhasil memperbarui stok
+                } else {
+                    return false; // Stok tidak cukup
+                }
+            }
+        }
+        return false; // Barang tidak ditemukan
+    }
+
+    public function getAvailableBarangs() {
+        $availableBarangs = [];
+        foreach ($this->barangs as $barang) {
+            if ($barang->stok > 0) {
+                $availableBarangs[] = $barang;
+            }
+        }
+        return $availableBarangs;
+    }
+    
 }
+
 ?>
