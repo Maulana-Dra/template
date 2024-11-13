@@ -1,5 +1,9 @@
 <?php 
 session_start();
+if( !isset($_SESSION["login"])){
+    header("Location: login.php");
+    exit;
+}
 
 require_once 'model/role_model.php';
 require_once 'model/user_model.php';
