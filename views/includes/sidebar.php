@@ -9,11 +9,6 @@
         // Sidebar untuk Admin (role_id 1)
         if ($role_id == 1) { 
         ?>
-            <li class="group">
-                <div class="px-4 py-2 hover:bg-gray-700 cursor-pointer group-hover:bg-gray-700">
-                    <a href="index.php?modul=dashboard">Dashboard</a>
-                </div>
-            </li>
 
             <li class="group">
                 <div class="px-4 py-2 hover:bg-gray-700 cursor-pointer group-hover:bg-gray-700">

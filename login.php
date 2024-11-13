@@ -34,10 +34,8 @@ if (isset($_POST["submit"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
-    <style media="screen">
+    <style>
         * {
             padding: 0;
             margin: 0;
@@ -45,161 +43,123 @@ if (isset($_POST["submit"])) {
         }
 
         body {
-            background-image: url("fre.jpg");
-            background-size: cover; 
-            background-position: center;
-            background-repeat: no-repeat; 
-            background-color: #080710;
+            background-image: url("bground.jpg"); /* Pastikan nama file sesuai dengan yang Anda simpan */
+            background-size: cover; /* Agar gambar memenuhi layar */
+            background-position: center; /* Pusatkan gambar */
+            background-repeat: no-repeat; /* Hindari pengulangan gambar */
             font-family: 'Poppins', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
+            overflow: hidden;
+            color: #ffffff;
         }
 
-        .background {
-            width: 430px;
-            height: 520px;
+        /* Particle canvas */
+        canvas {
             position: absolute;
-            transform: translate(-50%, -50%);
-            left: 50%;
-            top: 50%;
-        }
-
-        .background .shape {
-            height: 200px;
-            width: 200px;
-            position: absolute;
-            border-radius: 50%;
-        }
-
-        .shape:first-child {
-            background: linear-gradient(#1845ad, #23a2f6);
-            left: -80px;
-            top: -80px;
-        }
-
-        .shape:last-child {
-            background: linear-gradient(to right, #ff512f, #f09819);
-            right: -30px;
-            bottom: -80px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
         }
 
         .login-container {
-            width: 400px;
-            background-color: rgba(255, 255, 255, 0.13);
-            position: absolute;
-            transform: translate(-50%, -50%);
-            top: 50%;
-            left: 50%;
-            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 40px 30px;
+            width: 380px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
             backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
-            padding: 50px 35px;
+            position: relative;
         }
 
         h1 {
+            margin-bottom: 20px;
             font-size: 32px;
-            font-weight: 500;
-            line-height: 42px;
-            text-align: center;
+            font-weight: bold;
             color: #ffffff;
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
         }
 
         label {
             display: block;
-            margin-top: 30px;
-            font-size: 16px;
-            font-weight: 500;
+            margin: 15px 0 5px;
+            font-size: 14px;
             color: #ffffff;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
         }
 
         input {
-            display: block;
-            height: 50px;
             width: 100%;
-            background-color: rgba(255, 255, 255, 0.07);
-            border-radius: 3px;
-            padding: 0 10px;
-            margin-top: 8px;
-            font-size: 14px;
-            font-weight: 300;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid transparent;
+            border-radius: 8px;
             color: #ffffff;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #764ba2;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background: #ffffff;
+            color: #764ba2;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            background: #764ba2;
+            color: #ffffff;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .error-message {
+            color: #ff4d4d;
+            margin-top: 10px;
+            font-style: italic;
         }
 
         ::placeholder {
             color: #e5e5e5;
         }
-
-        button {
-            margin-top: 50px;
-            width: 100%;
-            background-color: #ffffff;
-            color: #080710;
-            padding: 15px 0;
-            font-size: 18px;
-            font-weight: 600;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease; /* Transisi yang halus */
-        }
-
-        button:hover {
-            transform: translateY(-5px); /* Efek timbul saat hover */
-            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2); /* Menambahkan bayangan untuk efek timbul */
-        }
-
-
-
-        .social {
-            margin-top: 30px;
-            display: flex;
-        }
-
-        .social div {
-            background: rgba(255, 255, 255, 0.27);
-            width: 150px;
-            border-radius: 3px;
-            padding: 5px 10px 10px 5px;
-            color: #eaf0fb;
-            text-align: center;
-        }
-
-        .social div:hover {
-            background-color: rgba(255, 255, 255, 0.47);
-        }
-
-        .social .fb {
-            margin-left: 25px;
-        }
-
-        .social i {
-            margin-right: 4px;
-        }
     </style>
 </head>
 <body>
-    <div class="background">
-        <div class="shape"></div>
-        <div class="shape"></div>
-    </div>
+    <canvas></canvas>
 
     <div class="login-container">
         <h1>Login Here</h1>
 
         <?php if (isset($error_user) && $error_user): ?>
-            <p style="color: red; text-align: center; font-style: italic;">User Tidak Bisa Login!</p>
+            <p class="error-message">User Tidak Bisa Login!</p>
         <?php endif; ?>
 
         <?php if (isset($error) && $error): ?>
-            <p style="color: red; text-align: center; font-style: italic;">Username atau Password salah!</p>
+            <p class="error-message">Username atau Password salah!</p>
         <?php endif; ?>
 
         <form action="" method="post">
             <label for="username">Username</label>
-            <input type="text" name="username" id="username" placeholder="Username" autocomplete="off" required>
+            <input type="text" name="username" id="username" placeholder="Username" required>
 
             <label for="password">Password</label>
             <input type="password" name="password" id="password" placeholder="Password" required>
@@ -207,5 +167,84 @@ if (isset($_POST["submit"])) {
             <button type="submit" name="submit">Log In</button>
         </form>
     </div>
+
+    <script>
+        const canvas = document.querySelector("canvas");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particlesArray;
+
+        // Create particle
+        class Particle {
+            constructor(x, y, directionX, directionY, size, color) {
+                this.x = x;
+                this.y = y;
+                this.directionX = directionX;
+                this.directionY = directionY;
+                this.size = size;
+                this.color = color;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                ctx.fillStyle = "#ffffff";
+                ctx.fill();
+            }
+
+            update() {
+                if (this.x + this.size > canvas.width || this.x - this.size < 0) {
+                    this.directionX = -this.directionX;
+                }
+                if (this.y + this.size > canvas.height || this.y - this.size < 0) {
+                    this.directionY = -this.directionY;
+                }
+
+                this.x += this.directionX;
+                this.y += this.directionY;
+
+                this.draw();
+            }
+        }
+
+        // Create particle array
+        function init() {
+            particlesArray = [];
+            let numberOfParticles = (canvas.height * canvas.width) / 9000;
+            for (let i = 0; i < numberOfParticles; i++) {
+                let size = (Math.random() * 5) + 1;
+                let x = (Math.random() * (innerWidth - size * 2) + size * 2);
+                let y = (Math.random() * (innerHeight - size * 2) + size * 2);
+                let directionX = (Math.random() * 2) - 1;
+                let directionY = (Math.random() * 2) - 1;
+                let color = "#ffffff";
+
+                particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+            }
+        }
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, innerWidth, innerHeight);
+
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+            }
+        }
+
+        // Resize canvas
+        window.addEventListener("resize", function () {
+            canvas.width = innerWidth;
+            canvas.height = innerHeight;
+            init();
+        });
+
+        init();
+        animate();
+    </script>
 </body>
 </html>
