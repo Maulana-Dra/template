@@ -1,72 +1,151 @@
-<?php
+<?php 
 session_start();
+if( !isset($_SESSION["login"])){
+    header("Location: login.php");
+    exit;
+}
+require_once 'model/role_model.php';
+require_once 'model/user_model.php';
+require_once 'model/barang_model.php'; 
+require_once 'model/transaksi_model.php'; 
 
-require_once 'controller/controllerRole.php';
-require_once 'controller/controllerUser.php';
-require_once 'model/barang_model.php';
-require_once 'controller/controllerTransaksi.php';
-
-//create object model
-
-$objectRole = new controllerRole();
-$obj_barang = new modelBarang();
-$objectUser = new controllerUser();
-$objTransaksi = new controllerTransaksi();
-
-if (isset($_GET['modul'])){
+// Tentukan modul yang akan ditampilkan
+if (isset($_GET['modul'])) {
     $modul = $_GET['modul'];
-}else{
-    $modul = 'dashboard';
+} else {
+    header("Location: index.php?modul=dashboard");
 }
 
 switch ($modul) {
-    case 'dashboard';
-        include 'views/kosong.php';
+    case 'dashboard':
+        $role_id = $_SESSION['role_id'];
+        if ($role_id == 1) {
+            header("Location: index.php?modul=role");
+        }else if($role_id == 3){
+            header("Location: index.php?modul=transaksi&fitur=add");
+        }
+        
+        // include 'views/kosong.php';
         break;
-
-    //Transaksi
-    case 'transaksi':
+    
+    // Modul Role
+    case 'role':
         $fitur = isset($_GET['fitur']) ? $_GET['fitur'] : null;
-        switch ($fitur){
-            case 'add':
-                if ($_SERVER['REQUEST_METHOD']=='POST'){
-                    print_r($_POST);
-                    $customer_name = $_POST['customer'];
-                    $Customer = $objectUser->getUserByName($customer_name);
-                    $Kasir = $objectUser->getUserById(1);
-                    echo $Customer->name."<br>";
-                    echo $Kasir->name."<br>";
-                    echo "<br>";
-                    // Asumsikan $_POST['barang'] dan $_POST['jumlah'] adalah array
-                    $barang = $_POST['barang'];
-                    $jumlah = $_POST['jumlah'];
+        $obj_role = new Role_model();
 
-                    $obj_barangs = [];
-                    foreach ($barang as $key => $bar) {
-//                        echo "Barang: " . $bar . ", Jumlah: " . $jumlah[$key] . "<br>";
-                        $obj_barangs[] = $obj_barang->getBarangById($bar);
-                    }
-                    $objTransaksi->addTransaksi($obj_barangs,$jumlah,$Customer,$Kasir);
-                } else {
-//                    $listRoleName = $objectRole->getListRoleName();
-                    $barangs = $obj_barang->getAllBarangs();
-                    $customers = $objectUser->getUsers();
-//                    foreach ($customers as $customer){
-//                        echo $customer->name."<br>";
-//                    }
-                    include 'views/transaksi_input.php';
+        switch ($fitur) {
+            case 'input':
+                include 'views/role_input.php';
+                break;
+            case 'add':
+                $role_name = $_POST['role_name'];
+                $role_description = $_POST['role_description'];
+                $role_status = $_POST['role_status'];
+                $obj_role->addRole($role_name, $role_description, $role_status);
+
+                header("Location: index.php?modul=role");
+                break;
+
+            case 'edit':
+                $id = $_GET['id'];
+                $roleData = $obj_role->getRoleById($id);
+                include 'views/update.php';
+                break;
+
+            case 'update':
+                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                    $id = $_POST['role_id'];
+                    $role_name = $_POST['role_name'];
+                    $role_description = $_POST['role_description'];
+                    $role_status = $_POST['role_status'];
+
+                    $obj_role->updateRole($id, $role_name, $role_description, $role_status);
+                    header("Location: index.php?modul=role");
                 }
                 break;
+
+            case 'delete':
+                $id = $_GET['id'];
+                $obj_role->deleteRole($id);
+                header("Location: index.php?modul=role");
+                break;
+
             default:
-                $objTransaksi->listTransaksi();
+                $roles = $obj_role->getAllRoles();
+                include "views/role_list.php";
+                break;
         }
         break;
 
-            // Modul Barang
+    // Modul User
+    // Modul User
+case 'user':
+    $fitur = isset($_GET['fitur']) ? $_GET['fitur'] : null;
+    $listRole = new Role_model(); 
+    $obj_user = new UserModel();
+
+    switch ($fitur) {
+        case 'input':
+            $roles = $listRole->getAllRoles(); // pastikan roles diambil dari model
+            $users = $obj_user->getAllUsers(); // jika diperlukan
+            include './views/user_input.php';
+            break;
+        
+            
+        case 'add':
+            // Pastikan nama variabel sesuai dengan form input
+            $user_name = $_POST['username'];
+            $user_password = $_POST['password'];
+            $role_id = $_POST['role']; 
+            $obj_user->addUser($user_name, $user_password, $role_id);
+
+            // Redirect ke modul user setelah penambahan
+            header("Location: index.php?modul=user");
+            break;
+
+
+            case 'edit':
+                $id = $_GET['id'];
+                $user = $obj_user->getUserById($id);
+                $roles = $listRole->getAllRoles();
+                include 'views/update_user.php';
+                break;
+
+            case 'update':
+                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                    $id = $_POST['user_id'];
+                    $user_name = $_POST['user_name'];
+                    $user_password = $_POST['user_password'];
+                    $role_id = $_POST['role_id'];
+
+                    $obj_user->updateUser($id, $user_name, $user_password, $role_id);
+                    header("Location: index.php?modul=user");
+                }
+                break;
+
+            case 'delete':
+                $id = $_GET['id'];
+                $obj_user->deleteUser($id);
+                header("Location: index.php?modul=user");
+                break;
+
+            default:
+                $users = $obj_user->getAllUsers();
+                include "views/user_list.php";
+                break;
+        }
+        break;
+
+    // Modul Barang
     case 'barang':
         $fitur = isset($_GET['fitur']) ? $_GET['fitur'] : null;
+        $obj_barang = new modelBarang();
 
         switch ($fitur) {
+            case 'input':
+                include 'views/barang_input.php';
+                break;
+                
             case 'add':
                 $nama = $_POST['nama'];
                 $harga = $_POST['harga'];
@@ -79,7 +158,7 @@ switch ($modul) {
             case 'edit':
                 $id = $_GET['id'];
                 $barang = $obj_barang->getBarangById($id);
-                include 'views/barang_update.php';
+                include 'views/update_barang.php';
                 break;
 
             case 'update':
@@ -107,69 +186,94 @@ switch ($modul) {
         }
         break;
 
-        case 'user':
+        // Modul Transaksi
+        case 'transaksi':
+            // Ambil fitur dari parameter GET
             $fitur = isset($_GET['fitur']) ? $_GET['fitur'] : null;
-            switch ($fitur){
+        
+            // Inisialisasi objek model
+            $obj_barang = new modelBarang();
+            $obj_user = new UserModel();
+            $objTransaksi = new modelTransaksi(); // Pastikan objek ini diinisialisasi
+        
+            switch ($fitur) {
                 case 'add':
-                    if ($_SERVER['REQUEST_METHOD']=='POST'){
-                        $name = $_POST['name'];
-                        $username = $_POST['username'];
-                        $passowrd = $_POST['password'];
-                        $role_Status = $_POST['role_status'];
-                        $users->addUser($role_status,$username,$passowrd,$name);
-                    } else {
-                        $listRoleName = $users->getListRoleName();
-                        include 'views/user_input.php';
-                    }
-                    break;
-                default:
-                    $users->listUser();
-            }
-            break;
-
-        case 'role':
-            $fitur = isset($_GET['fitur']) ? $_GET['fitur'] : null;
-            $id = isset($_GET['id']) ? $_GET['id'] : null;
-                switch ($fitur){
-                case 'add':
+                    // Ambil semua customer dan barang yang tersedia
+                    $customers = $obj_user->getAllCustomers();
+                    $barangs = $obj_barang->getAvailableBarangs();
+        
                     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                        $role_name = $_POST['role_name'];
-                        $role_description = $_POST['role_description'];
-                        $role_status = $_POST['role_status'];
-                        if ($role_status == 1) {
-                            $role_status = 1;
+                        // Ambil ID customer dari POST
+                        $customer_id = $_POST['customer'];
+                        $Customer = $obj_user->getUserById($customer_id);
+                        $kasir_username = $_SESSION['username'];
+                        $Kasir = $obj_user->getUserByName($kasir_username); 
+        
+                        // Validasi apakah customer dan kasir ditemukan
+                        if ($Customer && $Kasir) {
+                            $barang = $_POST['barang'];
+                            $jumlah = $_POST['jumlah'];
+                            $bayar = $_POST['bayar'];  // Ambil nilai bayar dari form
+                            $kembalian = $_POST['kembalian'];
+        
+                            // Ambil objek barang berdasarkan ID
+                            $obj_barangs = [];
+                            $stokCukup = true;
+                            foreach ($barang as $key => $bar) {
+                                $obj_barang_item = $obj_barang->getBarangById($bar);
+                                if ($obj_barang_item) {
+                                    // Cek apakah stok mencukupi
+                                    if ($obj_barang_item->stok >= $jumlah[$key]) {
+                                        $obj_barangs[] = $obj_barang_item;
+                                    } else {
+                                        echo "
+                                            <script>
+                                                alert('Stok $obj_barang_item->nama tidak mencukupi!');
+                                                document.location.href = 'index.php?modul=transaksi&fitur=add';
+                                            </script>
+                                        ";
+                                        $stokCukup = false;
+                                    }
+                                } else {
+                                    echo "
+                                            <script>
+                                                alert('Barang $bar tidak ditemukan!');
+                                            </script>
+                                        ";
+                                    $stokCukup = false;
+                                }
+                            }
+        
+                            // Tambahkan transaksi jika barang valid
+                            if ($stokCukup && !empty($obj_barangs)) {
+                                $objTransaksi->addTransaksi($obj_barangs, $jumlah, $Customer, $Kasir, $total, $bayar, $kembalian,tanggal: date('Y-m-d'));
+                                foreach ($obj_barangs as $key => $item) {
+                                    $obj_barang->updateStok($item->id, $jumlah[$key]); // Menggunakan notasi objek
+                                }
+                                header("Location: index.php?modul=transaksi");
+                                exit();  // Pastikan untuk menghentikan script setelah redirect
+                             }
                         } else {
-                            $role_status = 0;
+                            echo "
+                                    <script>
+                                        alert('customer atau kasir tidak ditemukan');
+                                        document.location.href = 'index.php?modul=transaksi&fitur=add';
+                                    </script>
+                                ";
                         }
-                        $objectRole->addRole($role_name,$role_description,$role_status);
-                    }else{
-                        include 'views/role_input.php';
+                    } else {
+                        // Tampilkan form input transaksi
+                        include 'views/transaksi_input.php';
                     }
                     break;
-                case 'edit':
-                    $objectRole->editById($id);
-                    break;
-                case 'update':
-                    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                        $role_name = $_POST['role_name'];
-                        $role_description = $_POST['role_description'];
-                        $role_status = $_POST['role_status'];
-                        if ($role_status == 1){
-                            $objectRole->updateRole($id, $role_name, $role_description, 1);
-                        }else{
-                            $objectRole->updateRole($id, $role_name, $role_description, 2);
-                        }
-                    }
-                    break;
-                case 'delete':
-                    $objectRole->deleteRole($id);
-                    break;
+        
                 default:
-                $objectRole->listRoles();
+                    // Ambil dan tampilkan daftar transaksi
+                    $transaksiList = $objTransaksi->getAllTransaksi();
+                    include 'views/transaksi_list.php';
             }
             break;
-        default:
-            include 'views/kosong.php';
-}
 
+        
+}
 ?>

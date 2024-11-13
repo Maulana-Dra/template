@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +10,6 @@
 
     <!-- Navbar -->
     <?php include 'includes/navbar.php'; ?>
-
     <!-- Main container -->
     <div class="flex">
         <!-- Sidebar -->
@@ -23,25 +21,25 @@
             <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg">
                 <h2 class="text-2xl font-bold mb-6 text-gray-800">Update Role</h2>
                 <form action="index.php?modul=role&fitur=update" method="POST">
-                    <input type="hidden" name="role_id" value="<?= $role->role_id; ?>">
+                    <input type="hidden" name="role_id" value="<?= $roleData->role_id; ?>">
                     <!-- Nama Role -->
                     <div class="mb-4">
                         <label for="role_name" class="block text-gray-700 text-sm font-bold mb-2">Nama Role:</label>
-                        <input type="text" id="role_name" name="role_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Masukkan Nama Role" required value="<?= $role->role_name ?>">
+                        <input type="text" id="role_name" name="role_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Masukkan Nama Role" required value="<?= $roleData->role_name ?>">
                     </div>
 
                     <!-- Role Deskripsi -->
                     <div class="mb-4">
                         <label for="role_description" class="block text-gray-700 text-sm font-bold mb-2">Role Deskripsi:</label>
-                        <textarea id="role_description" name="role_description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Masukkan Deskripsi Role" rows="3" required ><?= $role->role_description ?></textarea>
+                        <textarea id="role_description" name="role_description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Masukkan Deskripsi Role" rows="3" required ><?= $roleData->role_description ?></textarea>
                     </div>
 
                     <!-- Role Status -->
                     <div class="mb-4">
                         <label for="role_status" class="block text-gray-700 text-sm font-bold mb-2">Role Status:</label>
                         <select id="role_status" name="role_status" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
-                        <option value="Active" <?= $role->role_status == 1 ? 'selected' : '' ?>>Active</option>
-                        <option value="Inactive" <?= $role->role_status == 0 ? 'selected' : '' ?>>Inactive</option>
+                        <option value="1" <?= $roleData->role_status == 1 ? 'selected' : '' ?>>Active</option>
+                        <option value="0" <?= $roleData->role_status == 0 ? 'selected' : '' ?>>Inactive</option>
                         </select>
                     </div>
 

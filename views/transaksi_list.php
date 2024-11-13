@@ -48,7 +48,7 @@
                             <tr class="text-center">
                                 <td class="py-3 px-4 text-blue-600"><?php echo htmlspecialchars($transaksi->idTransaksi); ?></td>
                                 <td class="w-1/4 py-3 px-4"><?php echo htmlspecialchars($transaksi->customer->name); ?></td>
-                                <td class="w-1/4 py-3 px-4"><?php echo htmlspecialchars($transaksi->kasir->name); ?></td>
+                                <td class="w-1/4 py-3 px-4"><?php echo htmlspecialchars($transaksi->kasir->nama); ?></td>
                                 <td class="w-1/6 py-3 px-4"><?php echo htmlspecialchars($transaksi->total); ?></td>
                                 <td class="w-1/6 py-3 px-4">
                                     <button
@@ -82,14 +82,21 @@
                                 </tr>
                             </thead>
                             <tbody class="text-gray-700">
-                                <?php foreach ($transaksi->barangs as $index => $barang) { ?>
-                                    <tr class="text-center">
-                                        <td class="py-3 px-4"><?php echo htmlspecialchars($barang->nameBarang); ?></td>
-                                        <td class="py-3 px-4"><?php echo htmlspecialchars($transaksi->jumlahs[$index]); ?></td>
-                                    </tr>
-                                <?php } ?>
-                            </tbody>
-                        </table>
+    <?php foreach ($transaksi->barangs as $index => $barang) { ?>
+        <?php if ($barang !== null) { // Check if $barang is not null ?>
+            <tr class="text-center">
+                <td class="py-3 px-4"><?php echo htmlspecialchars($barang->nama); ?></td>
+                <td class="py-3 px-4"><?php echo htmlspecialchars($transaksi->jumlahs[$index]); ?></td>
+            </tr>
+        <?php } else { // Handle the case when $barang is null ?>
+            <tr class="text-center">
+                <td class="py-3 px-4 text-red-500">Barang tidak tersedia</td>
+                <td class="py-3 px-4">-</td>
+            </tr>
+        <?php } ?>
+    <?php } ?>
+</tbody>
+
                     </div>
                     <div class="items-center px-4 py-3">
                         <button
