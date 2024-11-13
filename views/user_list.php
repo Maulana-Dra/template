@@ -56,7 +56,7 @@
                                             <a href="index.php?modul=user&fitur=edit&id=<?php echo $user->user_id; ?>">Update</a>
                                         </button>
                                         <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mr-2">
-                                            <a href="index.php?modul=user&fitur=delete&id=<?php echo $user->user_id; ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus user ini?')">Delete</a>
+                                            <a href="index.php?modul=user&fitur=delete&id=<?php echo $user->user_id; ?>" onclick="return confirm('Apakah Anda yakin untuk menghapus user ini?')">Delete</a>
                                         </button>
                                     </td>
                                 </tr>

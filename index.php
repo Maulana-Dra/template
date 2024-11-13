@@ -1,9 +1,6 @@
 <?php 
 session_start();
-if( !isset($_SESSION["login"])){
-    header("Location: login.php");
-    exit;
-}
+
 require_once 'model/role_model.php';
 require_once 'model/user_model.php';
 require_once 'model/barang_model.php'; 
@@ -49,7 +46,7 @@ switch ($modul) {
             case 'edit':
                 $id = $_GET['id'];
                 $roleData = $obj_role->getRoleById($id);
-                include 'views/update.php';
+                include 'views/role_pdate.php';
                 break;
 
             case 'update':
@@ -108,7 +105,7 @@ case 'user':
                 $id = $_GET['id'];
                 $user = $obj_user->getUserById($id);
                 $roles = $listRole->getAllRoles();
-                include 'views/update_user.php';
+                include 'views/user_update.php';
                 break;
 
             case 'update':
@@ -158,7 +155,7 @@ case 'user':
             case 'edit':
                 $id = $_GET['id'];
                 $barang = $obj_barang->getBarangById($id);
-                include 'views/update_barang.php';
+                include 'views/barang_update.php';
                 break;
 
             case 'update':
