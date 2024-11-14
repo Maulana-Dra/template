@@ -1,7 +1,7 @@
 <?php
-require_once 'domain_object/node_transaksi.php';
-require_once 'model/user_model.php'; // Pastikan Anda mengimpor UserModel
-require_once 'model/barang_model.php'; // Pastikan Anda mengimpor modelBarang
+require_once $_SERVER['DOCUMENT_ROOT'] . '/TEMPLATE/domain_object/node_transaksi.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/TEMPLATE/model/user_model.php'; // Pastikan Anda mengimpor UserModel
+require_once $_SERVER['DOCUMENT_ROOT'] . '/TEMPLATE/model/barang_model.php'; // Pastikan Anda mengimpor modelBarang
 
 class modelTransaksi {
     private $transaksis = [];
@@ -50,6 +50,7 @@ class modelTransaksi {
         // Mendapatkan data barang dari modelBarang
         $barang1 = $objBarang->getBarangById(1);
         $barang2 = $objBarang->getBarangById(2);
+        $barang3 = $objBarang->getBarangById(3);
     
         // Memastikan barang ditemukan
         if (!$barang1 || !$barang2) {
@@ -85,8 +86,8 @@ class modelTransaksi {
         $this->addTransaksi($barangsA, $jumlahsA, $customer, $kasir, $totalA, $bayarA, $kembalianA, $tanggalA);
     
         // Transaksi B (Contoh 2)
-        $barangsB = [$barang1];
-        $jumlahsB = [3]; // Jumlah barang yang dibeli
+        $barangsB = [$barang1,$barang3];
+        $jumlahsB = [3, 5]; // Jumlah barang yang dibeli
     
         // Hitung total untuk transaksi B
         $totalB = 0;

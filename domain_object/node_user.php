@@ -1,5 +1,6 @@
 <?php 
-require_once 'domain_object/node_role.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/TEMPLATE/domain_object/node_role.php';
+
 
 class NodeUser  {
     public $user_id;

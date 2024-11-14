@@ -1,5 +1,6 @@
 <?php
-    require_once 'domain_object/node_role.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/TEMPLATE/domain_object/node_role.php';
+
 
 class Role_model{
     private $roles = [];
@@ -16,7 +17,7 @@ class Role_model{
         
         $this->addRole("Admin","Administrator",1);
         $this->addRole("Customer","Customer/Member",1);
-        $this->addRole("Kasir","Pembayaran",0);
+        $this->addRole("Kasir","Pembayaran",1);
     }
     public function addRole($role_name,$role_description,$role_status){
         $id = count($this->roles)+1;

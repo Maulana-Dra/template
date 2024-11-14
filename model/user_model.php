@@ -1,6 +1,7 @@
 <?php 
-require_once 'domain_object/node_user.php';
-require_once 'model/role_model.php'; // Pastikan Anda mengimpor RoleModel
+require_once $_SERVER['DOCUMENT_ROOT'] . '/TEMPLATE/domain_object/node_user.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/TEMPLATE/model/role_model.php';
+ // Pastikan Anda mengimpor RoleModel
 
 class UserModel {
     private $users = [];
@@ -25,7 +26,7 @@ class UserModel {
         // Menggunakan ID role dari RoleModel
         $this->addUser ('Maulana', 'maul123', 1); // Admin
         $this->addUser ('Indah', 'indah123', 2); // User
-        $this->addUser ('Muthe','muthe123',3); //kasir
+        $this->addUser ('Muthe','muthe123',3); //kasi
     }
 
     public function addUser ($user_name, $user_password, $role_id) {

@@ -1,5 +1,5 @@
 <?php
-require_once 'domain_object/node_barang.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/TEMPLATE/domain_object/node_barang.php';
 
 class modelBarang {
     private $barangs = [];

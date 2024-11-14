@@ -50,7 +50,7 @@ switch ($modul) {
             case 'edit':
                 $id = $_GET['id'];
                 $roleData = $obj_role->getRoleById($id);
-                include 'views/role_pdate.php';
+                include 'views/role_update.php';
                 break;
 
             case 'update':

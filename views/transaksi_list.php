@@ -18,7 +18,7 @@
         }
     </script>
 </head>
-<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+<body class="bg-gradient-to-br from-indigo-100 to-blue-200 font-sans leading-normal tracking-normal">
 
     <!-- Navbar -->
     <?php include 'includes/navbar.php'; ?>
@@ -32,19 +32,19 @@
         <div class="flex-1 p-8">
             <div class="container mx-auto">
                 <!-- Transaksi Table -->
-                <div class="bg-white shadow-md rounded my-6">
-                    <table class="min-w-full bg-white">
+                <div class="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200">
+                    <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-800 text-white">
                         <tr>
-                            <th class="w-1/12 py-3 px-4 uppercase font-semibold text-sm">ID Transaksi</th>
-                            <th class="w-1/4 py-3 px-4 uppercase font-semibold text-sm">Customer</th>
-                            <th class="w-1/4 py-3 px-4 uppercase font-semibold text-sm">Kasir</th>
-                            <th class="w-1/6 py-3 px-4 uppercase font-semibold text-sm">Total</th>
-                            <th class="w-1/6 py-3 px-4 uppercase font-semibold text-sm">Tanggal</th> <!-- Menambahkan kolom Tanggal -->
-                            <th class="w-1/6 py-3 px-4 uppercase font-semibold text-sm">Actions</th>
+                            <th class="w-1/12 py-3 px-4 font-semibold text-sm uppercase tracking-wider text-center">ID Transaksi</th>
+                            <th class="w-1/4 py-3 px-4 font-semibold text-sm uppercase tracking-wider text-center">Customer</th>
+                            <th class="w-1/4 py-3 px-4 font-semibold text-sm uppercase tracking-wider text-center">Kasir</th>
+                            <th class="w-1/6 py-3 px-4 font-semibold text-sm uppercase tracking-wider text-center">Total</th>
+                            <th class="w-1/6 py-3 px-4 font-semibold text-sm uppercase tracking-wider text-center">Tanggal</th> <!-- Menambahkan kolom Tanggal -->
+                            <th class="w-1/6 py-3 px-4 font-semibold text-sm uppercase tracking-wider text-center">Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="text-gray-700">
+                    <tbody class="bg-white divide-y divide-gray-200 text-gray-700">
                     <?php if (!empty($transaksiList)) { 
                         foreach ($transaksiList as $transaksi) { 
                             // Menghitung total untuk setiap transaksi
@@ -54,8 +54,8 @@
                                 $grandTotal += $subtotal; // Menjumlahkan subtotal
                             }
                             ?>
-                            <tr class="text-center border-b">
-                                <td class="py-3 px-4"><?php echo htmlspecialchars($transaksi->idTransaksi); ?></td>
+                            <tr class="text-center hover:bg-gray-100 transition-colors duration-200">
+                                <td class="py-3 px-4 text-blue-600 font-medium"><?php echo htmlspecialchars($transaksi->idTransaksi); ?></td>
                                 <td class="py-3 px-4"><?php echo htmlspecialchars($transaksi->customer->user_name); ?></td>
                                 <td class="py-3 px-4"><?php echo htmlspecialchars($transaksi->kasir->user_name); ?></td>
                                 <td class="py-3 px-4">Rp<?php echo number_format($grandTotal, 0, ',', '.'); ?></td>
@@ -71,7 +71,7 @@
                         <?php } 
                     } else { ?>
                         <tr>
-                            <td colspan="6" class="text-center py-4">Tidak ada transaksi yang ditemukan.</td>
+                            <td colspan="6" class="text-center hover:bg-gray-100 transition-colors duration-200">Tidak ada transaksi yang ditemukan.</td>
                         </tr>
                     <?php } ?>
                     </tbody>
